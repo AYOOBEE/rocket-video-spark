@@ -6,7 +6,8 @@ import {
   Play, 
   Mic, 
   Video, 
-  Music 
+  Music, 
+  CheckCircle
 } from "lucide-react";
 
 const features = [
@@ -45,44 +46,68 @@ const features = [
     description: "Fine-tuned editing, scene transitions, and camera controls for users who need more precise control.",
     icon: Video,
     color: "from-indigo-500 to-purple-500"
-  },
-  {
-    title: "Cinematic Audio Library",
-    description: "Built-in collection of music and audio effects to enhance your videos with professional sound.",
-    icon: Music,
-    color: "from-red-500 to-orange-500"
   }
 ];
 
+const FeatureCard = ({ feature, index }) => {
+  return (
+    <div 
+      className="glass-card p-6 hover:border-purple-500/50 transition-all duration-300 hover:shadow-lg hover:shadow-purple-500/10"
+    >
+      <div className={`inline-flex items-center justify-center w-12 h-12 rounded-lg bg-gradient-to-br ${feature.color} mb-5 group-hover:scale-110 transition-transform duration-300`}>
+        <feature.icon className="w-5 h-5 text-white" />
+      </div>
+      <h3 className="text-xl font-bold mb-3 text-white">{feature.title}</h3>
+      <p className="text-gray-400">{feature.description}</p>
+    </div>
+  )
+}
+
 const FeaturesSection = () => {
   return (
-    <section id="features" className="py-20 relative overflow-hidden">
-      {/* Gradient elements */}
-      <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-purple-600 rounded-full filter blur-3xl opacity-10"></div>
-      <div className="absolute top-1/4 -right-24 w-96 h-96 bg-blue-600 rounded-full filter blur-3xl opacity-10"></div>
-      
+    <section id="features" className="py-24 relative overflow-hidden">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="text-center max-w-3xl mx-auto mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold mb-6 bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">
-            Powerful AI Features
+          <div className="inline-flex items-center gap-2 bg-white/5 backdrop-blur-sm px-4 py-1.5 rounded-full border border-white/10 text-sm text-purple-200 mb-6">
+            <CheckCircle className="h-4 w-4 text-purple-300" />
+            <span>Powerful AI Features</span>
+          </div>
+          
+          <h2 className="text-3xl md:text-4xl font-bold mb-6 gradient-text">
+            Create Professional Videos <span className="text-purple-400">in Minutes</span>
           </h2>
-          <p className="text-xl text-gray-300">
-            Create professional videos in minutes with our comprehensive suite of AI-powered tools
+          
+          <p className="text-xl text-gray-400">
+            Our comprehensive suite of AI-powered tools makes video creation effortless
           </p>
         </div>
         
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {features.map((feature, index) => (
-            <div 
-              key={index}
-              className="bg-gray-900/50 backdrop-blur-md border border-white/10 rounded-xl p-6 hover:border-purple-500/50 transition-all duration-300 group hover:shadow-lg hover:shadow-purple-500/10"
-            >
-              <div className={`inline-flex items-center justify-center w-12 h-12 rounded-lg bg-gradient-to-br ${feature.color} mb-5 group-hover:scale-110 transition-transform duration-300`}>
-                <feature.icon className="w-6 h-6 text-white" />
+        {/* Main feature preview */}
+        <div className="mb-16 relative">
+          <div className="glass-card p-1 glow-effect">
+            <div className="rounded-lg overflow-hidden relative">
+              <img 
+                src="https://images.unsplash.com/photo-1593508512255-86ab42a8e620?q=80&w=2978&auto=format&fit=crop" 
+                alt="AI Video Creation" 
+                className="w-full h-auto object-cover rounded-lg"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent flex flex-col justify-end p-8">
+                <h3 className="text-2xl md:text-3xl font-bold mb-2 text-white">Cinematic Audio Library</h3>
+                <p className="text-gray-200 max-w-xl">Built-in collection of music and audio effects to enhance your videos with professional sound.</p>
               </div>
-              <h3 className="text-xl font-bold mb-3 text-white">{feature.title}</h3>
-              <p className="text-gray-400">{feature.description}</p>
             </div>
+          </div>
+          
+          {/* Floating stats badge */}
+          <div className="absolute -bottom-6 right-8 md:right-16 glass-card p-4 shadow-xl">
+            <div className="text-sm text-gray-400">Videos Generated</div>
+            <div className="text-2xl font-bold gradient-text">2M+</div>
+          </div>
+        </div>
+        
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {features.map((feature, index) => (
+            <FeatureCard key={index} feature={feature} index={index} />
           ))}
         </div>
       </div>

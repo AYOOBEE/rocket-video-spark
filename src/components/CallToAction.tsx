@@ -1,10 +1,17 @@
 
 import { Button } from "@/components/ui/button";
-import { ArrowRight, Sparkles } from "lucide-react";
+import { ArrowRight, Play, Sparkles } from "lucide-react";
+import { useState } from "react";
 
 const CallToAction = () => {
+  const [showVideo, setShowVideo] = useState(false);
+  
+  const handlePlayVideo = () => {
+    setShowVideo(true);
+  };
+
   return (
-    <section className="py-20 relative overflow-hidden">
+    <section className="py-20 relative overflow-hidden" id="get-started">
       {/* Background with gradient */}
       <div className="absolute inset-0 bg-gradient-to-b from-black to-purple-900/20 pointer-events-none"></div>
       
@@ -25,7 +32,7 @@ const CallToAction = () => {
                 Join thousands of content creators who are already using RocketVideosAI to produce high-quality videos in minutes, not days.
               </p>
               
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <div className="flex flex-col sm:flex-row gap-4 justify-center mb-10">
                 <Button 
                   size="lg"
                   className="bg-gradient-to-r from-purple-600 to-pink-600 hover:bg-gradient-to-r hover:from-purple-700 hover:to-pink-700 text-white font-medium px-8 py-6 text-lg border-0 shadow-lg shadow-purple-900/30"
@@ -36,10 +43,26 @@ const CallToAction = () => {
                   variant="outline" 
                   size="lg"
                   className="border-white/20 text-white hover:bg-white/10 flex items-center gap-2 px-8 py-6 text-lg backdrop-blur-sm"
+                  onClick={handlePlayVideo}
                 >
-                  Schedule Demo <ArrowRight size={18} />
+                  <Play size={18} className="text-purple-400" /> Watch How It Works
                 </Button>
               </div>
+              
+              {showVideo && (
+                <div className="mt-8 max-w-3xl mx-auto glass-card p-1.5 glow-effect rounded-xl overflow-hidden">
+                  <div className="relative w-full aspect-video">
+                    <iframe
+                      src="https://player.vimeo.com/video/1070826551?autoplay=1&title=0&byline=0&portrait=0"
+                      className="w-full h-full absolute inset-0"
+                      allow="autoplay; fullscreen; picture-in-picture"
+                      allowFullScreen
+                      title="RocketVideosAI Demo"
+                      style={{ border: 'none' }}
+                    ></iframe>
+                  </div>
+                </div>
+              )}
               
               <p className="mt-6 text-gray-400">
                 No credit card required. Cancel anytime.

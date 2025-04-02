@@ -1,8 +1,15 @@
 
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Play, Sparkles } from "lucide-react";
+import { useState } from "react";
 
 const HeroSection = () => {
+  const [showVideo, setShowVideo] = useState(false);
+
+  const handlePlayVideo = () => {
+    setShowVideo(true);
+  };
+
   return (
     <div className="relative overflow-hidden pt-24 pb-20 min-h-screen flex items-center">
       {/* Background gradient */}
@@ -44,6 +51,7 @@ const HeroSection = () => {
                 variant="outline" 
                 size="lg"
                 className="border-white/20 text-white hover:bg-white/10 flex items-center gap-2 px-8 py-6 rounded-lg text-lg backdrop-blur-sm"
+                onClick={handlePlayVideo}
               >
                 <Play size={18} className="text-purple-400" /> Watch Demo
               </Button>
@@ -60,32 +68,46 @@ const HeroSection = () => {
             </div>
           </div>
           
-          {/* Video preview */}
+          {/* Video section */}
           <div className="lg:w-1/2 relative">
             <div className="rounded-xl overflow-hidden relative group z-0">
-              {/* Video thumbnail */}
-              <div className="glass-card p-1.5 glow-effect">
-                <div className="relative overflow-hidden rounded-lg">
-                  <video 
-                    className="w-full h-auto rounded-lg" 
-                    autoPlay 
-                    muted 
-                    loop 
-                    playsInline
-                    poster="https://images.unsplash.com/photo-1605810230434-7631ac76ec81?ixlib=rb-1.2.1&auto=format&fit=crop&w=1050&q=80"
-                  >
-                    <source src="https://assets.mixkit.co/videos/preview/mixkit-animation-of-futuristic-devices-99786-large.mp4" type="video/mp4" />
-                    Your browser does not support the video tag.
-                  </video>
-                  
-                  {/* Play button overlay */}
-                  <div className="absolute inset-0 flex items-center justify-center bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <div className="w-16 h-16 flex items-center justify-center rounded-full bg-white">
-                      <Play className="w-6 h-6 text-gray-900 fill-gray-900" />
+              {showVideo ? (
+                <div className="glass-card p-1.5 glow-effect">
+                  <div className="relative overflow-hidden rounded-lg aspect-video w-full">
+                    <iframe
+                      src="https://player.vimeo.com/video/1070826551?autoplay=1&loop=1&title=0&byline=0&portrait=0"
+                      className="w-full h-full absolute inset-0"
+                      allow="autoplay; fullscreen; picture-in-picture"
+                      allowFullScreen
+                      title="RocketVideosAI Demo"
+                      style={{ border: 'none' }}
+                    ></iframe>
+                  </div>
+                </div>
+              ) : (
+                <div className="glass-card p-1.5 glow-effect">
+                  <div className="relative overflow-hidden rounded-lg aspect-video">
+                    {/* Vimeo thumbnail */}
+                    <div 
+                      className="w-full h-full bg-cover bg-center"
+                      style={{
+                        backgroundImage: `url('https://i.vimeocdn.com/video/1070826551_640x360.jpg')`,
+                        aspectRatio: '16/9'
+                      }}
+                    >
+                      {/* Play button overlay */}
+                      <div 
+                        className="absolute inset-0 flex items-center justify-center bg-black/30 cursor-pointer"
+                        onClick={handlePlayVideo}
+                      >
+                        <div className="w-16 h-16 flex items-center justify-center rounded-full bg-white/90 hover:bg-white transition-colors">
+                          <Play className="w-6 h-6 text-gray-900 fill-gray-900" />
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
+              )}
             </div>
             
             {/* Floating badge */}

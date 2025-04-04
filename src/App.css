@@ -42,6 +42,14 @@
   color: #888;
 }
 
+/* Gradient text effect */
+.gradient-text {
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  background-image: linear-gradient(to right, white, #e2e2e2);
+}
+
 /* Mobile responsive styles */
 @media (max-width: 640px) {
   body {
@@ -49,12 +57,25 @@
   }
   
   .container {
-    padding-left: 1rem;
-    padding-right: 1rem;
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
   }
   
   h1, h2, h3 {
     word-break: break-word;
+  }
+  
+  .browser-window {
+    max-width: 95vw;
+    margin: 0 auto;
+  }
+}
+
+/* Small devices (landscape phones) */
+@media (min-width: 641px) and (max-width: 768px) {
+  .container {
+    padding-left: 1rem;
+    padding-right: 1rem;
   }
 }
 
@@ -62,4 +83,12 @@
 html, body {
   overflow-x: hidden;
   max-width: 100vw;
+}
+
+/* Glass card effect */
+.glass-card {
+  background: rgba(20, 20, 40, 0.2);
+  backdrop-filter: blur(8px);
+  border-radius: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }

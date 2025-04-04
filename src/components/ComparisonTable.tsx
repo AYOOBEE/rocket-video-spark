@@ -1,7 +1,52 @@
 
 import { Check, X } from "lucide-react";
+import { useIsMobile, useBreakpoint } from "@/hooks/use-mobile";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 
 const ComparisonTable = () => {
+  const isMobile = useIsMobile();
+  const isTablet = useBreakpoint(1024);
+  
+  // Define features data for reusability
+  const features = [
+    { feature: "AI Storyboarding", rocket: true, pictory: false, synthesia: true, invideo: true },
+    { feature: "Voiceover Cloning", rocket: true, pictory: false, synthesia: true, invideo: false },
+    { feature: "Animation Sequences", rocket: true, pictory: false, synthesia: false, invideo: true },
+    { feature: "Custom Branding", rocket: true, pictory: false, synthesia: false, invideo: true },
+    { feature: "Unlimited Projects", rocket: true, pictory: false, synthesia: false, invideo: false },
+  ];
+
+  // Determine which columns to display based on screen size
+  const competitors = [
+    { name: "RocketVideosAI", price: "Starting from Free", key: "rocket", highlight: true },
+    { name: "Pictory AI", price: "$19/month", key: "pictory", highlight: false },
+    { name: "Synthesia", price: "$30/month", key: "synthesia", highlight: false },
+    { name: "InVideo", price: "$15/month", key: "invideo", highlight: false }
+  ];
+
+  // For mobile view, determine which competitor to show besides RocketVideosAI
+  const displayCompetitors = isMobile 
+    ? [competitors[0], competitors[1]] // Only show RocketVideosAI and Pictory AI on mobile
+    : isTablet 
+      ? competitors.slice(0, 3) // Show first 3 on tablet
+      : competitors; // Show all on desktop
+
+  const renderCheckmark = (isSupported: boolean, isHighlighted: boolean) => (
+    <div className={`h-8 w-8 rounded-full ${
+      isSupported 
+        ? isHighlighted 
+          ? "bg-purple-500/20 flex items-center justify-center" 
+          : "bg-green-500/20 flex items-center justify-center"
+        : "bg-gray-800/40 flex items-center justify-center"
+    }`}>
+      {isSupported ? (
+        <Check className={`h-5 w-5 ${isHighlighted ? "text-purple-400" : "text-green-400"}`} />
+      ) : (
+        <X className="h-5 w-5 text-gray-500" />
+      )}
+    </div>
+  );
+
   return (
     <section id="compare" className="py-20 relative overflow-hidden">
       {/* Gradient elements */}
@@ -15,112 +60,84 @@ const ComparisonTable = () => {
           <p className="text-xl text-gray-300">
             See how RocketVideosAI stacks up against other video creation tools
           </p>
+          
+          {isMobile && (
+            <div className="mt-4 text-sm text-gray-400">
+              <p>Swipe left to see more competitors →</p>
+            </div>
+          )}
         </div>
         
-        <div className="overflow-x-auto">
-          <div className="min-w-max">
-            <div className="grid grid-cols-5 bg-gray-900/50 backdrop-blur-md rounded-t-xl border-b border-white/10">
-              <div className="p-6 text-gray-300 font-medium">Feature</div>
-              <div className="p-6 text-white font-bold">
-                <div className="text-purple-400">RocketVideosAI</div>
-                <div className="text-sm text-gray-400 font-normal mt-1">Starting from Free</div>
-              </div>
-              <div className="p-6 text-white">
-                <div>Pictory AI</div>
-                <div className="text-sm text-gray-400 mt-1">$19/month</div>
-              </div>
-              <div className="p-6 text-white">
-                <div>Synthesia</div>
-                <div className="text-sm text-gray-400 mt-1">$30/month</div>
-              </div>
-              <div className="p-6 text-white">
-                <div>InVideo</div>
-                <div className="text-sm text-gray-400 mt-1">$15/month</div>
-              </div>
-            </div>
-            
-            {/* Table rows */}
-            {[
-              { feature: "AI Storyboarding", rocket: true, pictory: false, synthesia: true, invideo: true },
-              { feature: "Voiceover Cloning", rocket: true, pictory: false, synthesia: true, invideo: false },
-              { feature: "Animation Sequences", rocket: true, pictory: false, synthesia: false, invideo: true },
-              { feature: "Custom Branding", rocket: true, pictory: false, synthesia: false, invideo: true },
-              { feature: "Unlimited Projects", rocket: true, pictory: false, synthesia: false, invideo: false },
-            ].map((row, index) => (
-              <div 
-                key={index}
-                className={`grid grid-cols-5 border-b border-white/5 ${
-                  index % 2 === 0 ? 'bg-gray-800/20' : 'bg-gray-900/20'
-                }`}
-              >
-                <div className="p-6 text-gray-300">{row.feature}</div>
-                <div className="p-6 flex items-center justify-center">
-                  {row.rocket ? (
-                    <div className="h-8 w-8 rounded-full bg-purple-500/20 flex items-center justify-center">
-                      <Check className="h-5 w-5 text-purple-400" />
-                    </div>
-                  ) : (
-                    <div className="h-8 w-8 rounded-full bg-gray-800/40 flex items-center justify-center">
-                      <X className="h-5 w-5 text-gray-500" />
-                    </div>
-                  )}
-                </div>
-                <div className="p-6 flex items-center justify-center">
-                  {row.pictory ? (
-                    <div className="h-8 w-8 rounded-full bg-green-500/20 flex items-center justify-center">
-                      <Check className="h-5 w-5 text-green-400" />
-                    </div>
-                  ) : (
-                    <div className="h-8 w-8 rounded-full bg-gray-800/40 flex items-center justify-center">
-                      <X className="h-5 w-5 text-gray-500" />
-                    </div>
-                  )}
-                </div>
-                <div className="p-6 flex items-center justify-center">
-                  {row.synthesia ? (
-                    <div className="h-8 w-8 rounded-full bg-green-500/20 flex items-center justify-center">
-                      <Check className="h-5 w-5 text-green-400" />
-                    </div>
-                  ) : (
-                    <div className="h-8 w-8 rounded-full bg-gray-800/40 flex items-center justify-center">
-                      <X className="h-5 w-5 text-gray-500" />
-                    </div>
-                  )}
-                </div>
-                <div className="p-6 flex items-center justify-center">
-                  {row.invideo ? (
-                    <div className="h-8 w-8 rounded-full bg-green-500/20 flex items-center justify-center">
-                      <Check className="h-5 w-5 text-green-400" />
-                    </div>
-                  ) : (
-                    <div className="h-8 w-8 rounded-full bg-gray-800/40 flex items-center justify-center">
-                      <X className="h-5 w-5 text-gray-500" />
-                    </div>
-                  )}
-                </div>
-              </div>
-            ))}
-            
-            {/* Bottom row with CTA */}
-            <div className="grid grid-cols-5 rounded-b-xl overflow-hidden">
-              <div className="p-6 bg-gray-900/30"></div>
-              <div className="p-6 bg-gradient-to-r from-purple-600 to-pink-600 text-center">
-                <a href="#pricing" className="text-white font-medium hover:underline">
-                  Get Started Free
-                </a>
-              </div>
-              <div className="p-6 bg-gray-800/50 text-center">
-                <span className="text-gray-400">Visit site</span>
-              </div>
-              <div className="p-6 bg-gray-800/50 text-center">
-                <span className="text-gray-400">Visit site</span>
-              </div>
-              <div className="p-6 bg-gray-800/50 text-center">
-                <span className="text-gray-400">Visit site</span>
-              </div>
-            </div>
-          </div>
+        {/* Mobile-friendly table */}
+        <div className="overflow-x-auto pb-6 -mx-4 px-4">
+          <Table className="w-full border-collapse min-w-[500px]">
+            <TableHeader className="bg-gray-900/50 backdrop-blur-md rounded-t-xl">
+              <TableRow className="border-b border-white/10">
+                <TableHead className="p-4 text-gray-300 font-medium w-1/3">Feature</TableHead>
+                {displayCompetitors.map((competitor, idx) => (
+                  <TableHead 
+                    key={idx} 
+                    className={`p-4 text-white ${competitor.highlight ? 'text-purple-400 font-bold' : 'font-medium'}`}
+                  >
+                    <div>{competitor.name}</div>
+                    <div className="text-sm text-gray-400 font-normal mt-1">{competitor.price}</div>
+                  </TableHead>
+                ))}
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {features.map((row, rowIndex) => (
+                <TableRow 
+                  key={rowIndex}
+                  className={`${
+                    rowIndex % 2 === 0 ? 'bg-gray-800/20' : 'bg-gray-900/20'
+                  } border-b border-white/5`}
+                >
+                  <TableCell className="p-4 text-gray-300">{row.feature}</TableCell>
+                  {displayCompetitors.map((competitor, idx) => (
+                    <TableCell key={idx} className="p-4 text-center">
+                      <div className="flex justify-center">
+                        {renderCheckmark(row[competitor.key as keyof typeof row] as boolean, competitor.highlight)}
+                      </div>
+                    </TableCell>
+                  ))}
+                </TableRow>
+              ))}
+              <TableRow className="rounded-b-xl overflow-hidden">
+                <TableCell className="p-4 bg-gray-900/30"></TableCell>
+                {displayCompetitors.map((competitor, idx) => (
+                  <TableCell 
+                    key={idx} 
+                    className={`p-4 text-center ${
+                      competitor.highlight 
+                        ? 'bg-gradient-to-r from-purple-600 to-pink-600' 
+                        : 'bg-gray-800/50'
+                    }`}
+                  >
+                    <a 
+                      href={competitor.highlight ? "#pricing" : "#"} 
+                      className={`${competitor.highlight ? 'text-white font-medium hover:underline' : 'text-gray-400'}`}
+                    >
+                      {competitor.highlight ? 'Get Started Free' : 'Visit site'}
+                    </a>
+                  </TableCell>
+                ))}
+              </TableRow>
+            </TableBody>
+          </Table>
         </div>
+        
+        {/* Mobile pagination indicators */}
+        {isMobile && (
+          <div className="flex justify-center gap-2 mt-4">
+            {competitors.map((_, idx) => (
+              <div 
+                key={idx} 
+                className={`h-2 w-2 rounded-full ${idx < 2 ? 'bg-purple-500' : 'bg-gray-700'}`}
+              ></div>
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );
